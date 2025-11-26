@@ -8,13 +8,14 @@ const options = {
       version: '1.0.0',
       description: 'API for managing personal finances, including users and transactions.'
     },
-    servers: [{ url: 'https://personal-finance-tracker-api-k3ya.onrender.com' }],  // Replace with your actual Render URL
+    servers: [{ url: 'https://your-render-url.onrender.com' }],  // Replace with your actual Render URL
     components: {
       securitySchemes: {
         bearerAuth: {
-          type: 'https',
+          type: 'http',
           scheme: 'bearer',
-          bearerFormat: 'JWT'
+          bearerFormat: 'JWT',
+          description: 'Enter JWT token in the format: Bearer {token}'
         }
       },
       schemas: {
@@ -52,15 +53,15 @@ const options = {
           }
         }
       }
-    },
-    security: [{ bearerAuth: [] }]
+    }
+    // Removed global security to avoid conflicts
   },
-  apis: ['./routes/*.js']  // Points to your route files for additional annotations if needed
+  apis: ['./routes/*.js']
 };
 
 const specs = swaggerJSDoc(options);
 
-// Manually add paths (since apis array may not auto-detect without @swagger comments)
+// Manually add paths with per-endpoint security
 specs.paths = {
   '/api/v1/auth/register': {
     post: {
@@ -79,6 +80,7 @@ specs.paths = {
         400: { description: 'Validation error', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } },
         500: { description: 'Server error', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } }
       }
+      // No security for unprotected route
     }
   },
   '/api/v1/auth/login': {
@@ -115,6 +117,7 @@ specs.paths = {
         401: { description: 'Invalid credentials', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } },
         500: { description: 'Server error', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } }
       }
+      // No security for unprotected route
     }
   },
   '/api/v1/users': {
@@ -161,6 +164,7 @@ specs.paths = {
         400: { description: 'Validation error', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } },
         500: { description: 'Server error', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } }
       }
+      // No security for unprotected route
     }
   },
   '/api/v1/users/{id}': {
