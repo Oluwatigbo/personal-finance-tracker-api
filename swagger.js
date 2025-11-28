@@ -233,7 +233,6 @@ specs.paths = {
     get: {
       summary: 'Get all transactions for user',
       description: 'Retrieves all transactions for the authenticated user.',
-      security: [{ bearerAuth: [] }],
       responses: {
         200: {
           description: 'List of transactions',
@@ -253,7 +252,6 @@ specs.paths = {
     post: {
       summary: 'Create a new transaction',
       description: 'Creates a new transaction for the authenticated user.',
-      security: [{ bearerAuth: [] }],
       requestBody: {
         required: true,
         content: {
@@ -280,7 +278,6 @@ specs.paths = {
     get: {
       summary: 'Get transaction by ID',
       description: 'Retrieves a single transaction by ID for the authenticated user.',
-      security: [{ bearerAuth: [] }],
       parameters: [
         {
           name: 'id',
@@ -306,7 +303,6 @@ specs.paths = {
     put: {
       summary: 'Update transaction by ID',
       description: 'Updates a transaction by ID for the authenticated user.',
-      security: [{ bearerAuth: [] }],
       parameters: [
         {
           name: 'id',
@@ -334,7 +330,6 @@ specs.paths = {
     delete: {
       summary: 'Delete transaction by ID',
       description: 'Deletes a transaction by ID for the authenticated user.',
-      security: [{ bearerAuth: [] }],
       parameters: [
         {
           name: 'id',
