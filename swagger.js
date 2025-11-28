@@ -24,10 +24,7 @@ const options = {
           properties: {
             email: { type: 'string', format: 'email', description: 'User email' },
             password: { type: 'string', minLength: 6, description: 'User password (hashed)' },
-            name: { type: 'string', description: 'User name' },
-            createdAt: { type: 'string', format: 'date-time' },
-            updatedAt: { type: 'string', format: 'date-time' },
-            oauthProvider: { type: 'string', default: 'local' }
+            name: { type: 'string', description: 'User name' }
           }
         },
         Transaction: {
@@ -40,9 +37,7 @@ const options = {
             date: { type: 'string', format: 'date-time', description: 'Transaction date' },
             type: { type: 'string', enum: ['income', 'expense'], description: 'Transaction type' },
             tags: { type: 'array', items: { type: 'string' }, description: 'Optional tags' },
-            notes: { type: 'string', description: 'Optional notes' },
-            createdAt: { type: 'string', format: 'date-time' },
-            updatedAt: { type: 'string', format: 'date-time' }
+            notes: { type: 'string', description: 'Optional notes' }
           }
         },
         Error: {
