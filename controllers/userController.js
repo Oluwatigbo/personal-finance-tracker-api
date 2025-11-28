@@ -38,10 +38,7 @@ exports.createUser = async (req, res) => {
     const user = {
       email,
       password: hashedPassword,
-      name,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      oauthProvider: 'local'
+      name
     };
 
     // Check for existing email
@@ -60,7 +57,7 @@ exports.updateUser = async (req, res) => {
   if (error) return res.status(400).json({ error: error.details[0].message });
 
   try {
-    const updateData = { ...req.body, updatedAt: new Date() };
+    const updateData = { ...req.body };
     const result = await req.db.collection(USER_COLLECTION).updateOne(
       { _id: new ObjectId(req.params.id) },
       { $set: updateData }

@@ -5,10 +5,7 @@ const USER_COLLECTION = 'users';
 const userStructure = {
   email: 'string',  // Unique
   password: 'string',  // Hashed
-  name: 'string',
-  createdAt: 'date',
-  updatedAt: 'date',
-  oauthProvider: 'string'
+  name: 'string'
 };
 
 module.exports = { USER_COLLECTION, userStructure };
