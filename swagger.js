@@ -115,8 +115,7 @@ specs.paths = {
   '/api/v1/users': {
     get: {
       summary: 'Get all users',
-      description: 'Retrieves a list of all users (admin access).',
-      security: [{ bearerAuth: [] }],
+      description: 'Retrieves a list of all users.',
       responses: {
         200: {
           description: 'List of users',
@@ -162,7 +161,6 @@ specs.paths = {
     get: {
       summary: 'Get user by ID',
       description: 'Retrieves a single user by ID.',
-      security: [{ bearerAuth: [] }],
       parameters: [
         {
           name: 'id',
@@ -188,7 +186,6 @@ specs.paths = {
     put: {
       summary: 'Update user by ID',
       description: 'Updates a user by ID.',
-      security: [{ bearerAuth: [] }],
       parameters: [
         {
           name: 'id',
@@ -216,7 +213,6 @@ specs.paths = {
     delete: {
       summary: 'Delete user by ID',
       description: 'Deletes a user by ID.',
-      security: [{ bearerAuth: [] }],
       parameters: [
         {
           name: 'id',
