@@ -35,7 +35,7 @@ app.use((req, res, next) => {
 // Routes
 app.use('/api/v1/auth', require('./routes/authRoutes'));
 app.use('/api/v1/users', require('./routes/userRoutes'));
-app.use('/api/v1/transactions', require('./routes/transactionRoutes'));
+app.use('/api/v1/transactions', require('./middleware/auth'), require('./routes/transactionRoutes'));
 
 // Swagger Docs
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
