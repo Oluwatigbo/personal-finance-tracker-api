@@ -3,11 +3,17 @@ const bcrypt = require('bcryptjs');
 const { ObjectId } = require('mongodb');
 const { USER_COLLECTION } = require('../models/User');
 
-const userSchema = Joi.object({
+const createUserSchema = Joi.object({
   email: Joi.string().email().required(),
   password: Joi.string().min(6).required(),
   name: Joi.string().required()
 });
+
+const updateUserSchema = Joi.object({
+  email: Joi.string().email(),
+  password: Joi.string().min(6),
+  name: Joi.string()
+}).min(1);
 
 exports.getAllUsers = async (req, res) => {
   try {
@@ -29,7 +35,7 @@ exports.getUserById = async (req, res) => {
 };
 
 exports.createUser = async (req, res) => {
-  const { error } = userSchema.validate(req.body);
+  const { error } = createUserSchema.validate(req.body);
   if (error) return res.status(400).json({ error: error.details[0].message });
 
   try {
@@ -53,7 +59,7 @@ exports.createUser = async (req, res) => {
 };
 
 exports.updateUser = async (req, res) => {
-  const { error } = userSchema.validate(req.body);
+  const { error } = updateUserSchema.validate(req.body);
   if (error) return res.status(400).json({ error: error.details[0].message });
 
   try {

@@ -12,6 +12,16 @@ const transactionSchema = Joi.object({
   notes: Joi.string().optional()
 });
 
+const transactionUpdateSchema = Joi.object({
+  amount: Joi.number().positive().optional(),
+  description: Joi.string().optional(),
+  categoryId: Joi.string().optional(),
+  date: Joi.date().optional(),
+  type: Joi.string().valid('income', 'expense').optional(),
+  tags: Joi.array().items(Joi.string()).optional(),
+  notes: Joi.string().optional()
+}).min(1);
+
 exports.getAllTransactions = async (req, res) => {
   try {
     const transactions = await req.db.collection(TRANSACTION_COLLECTION).find({ userId: new ObjectId(req.user.id) }).toArray();
@@ -54,7 +64,7 @@ exports.createTransaction = async (req, res) => {
 };
 
 exports.updateTransaction = async (req, res) => {
-  const { error } = transactionSchema.validate(req.body);
+  const { error } = transactionUpdateSchema.validate(req.body);
   if (error) return res.status(400).json({ error: error.details[0].message });
 
   try {

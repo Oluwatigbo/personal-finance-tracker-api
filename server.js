@@ -36,7 +36,7 @@ app.use((req, res, next) => {
 app.use('/api/v1/auth', require('./routes/authRoutes'));
 app.use('/api/v1/users', require('./routes/userRoutes'));
 app.use('/api/v1/transactions', require('./routes/transactionRoutes'));
-app.use('/api/v1/categories', require('./routes/categoryRoutes')); 
+app.use('/api/v1/categories', require('./routes/categoryRoutes'));  // New
 app.use('/api/v1/budgets', require('./routes/budgetRoutes'));      
 
 // Swagger Docs
