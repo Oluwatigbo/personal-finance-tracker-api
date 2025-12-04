@@ -36,6 +36,7 @@ exports.register = async (req, res) => {
   }
 };
 
+// In authController.js, update the login function:
 exports.login = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -43,7 +44,12 @@ exports.login = async (req, res) => {
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
-    const token = jwt.sign({ id: user._id.toString() }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    // Add 'iat' to make token unique per login
+    const token = jwt.sign(
+      { id: user._id.toString(), iat: Math.floor(Date.now() / 1000) },  // iat ensures uniqueness
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
     res.json({ token });
   } catch (error) {
     res.status(500).json({ error: 'Server error' });
