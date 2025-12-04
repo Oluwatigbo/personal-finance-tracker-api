@@ -40,6 +40,14 @@ const options = {
             notes: { type: 'string', description: 'Optional notes' }
           }
         },
+        Category: {
+  type: 'object',
+  properties: { name: { type: 'string' }, description: { type: 'string' }, color: { type: 'string' } }
+},
+Budget: {
+  type: 'object',
+  properties: { categoryId: { type: 'string' }, amount: { type: 'number' }, month: { type: 'number' }, year: { type: 'number' } }
+},
         Error: {
           type: 'object',
           properties: {
@@ -345,6 +353,26 @@ specs.paths = {
         500: { description: 'Server error', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } }
       }
     }
+  },
+'/api/v1/categories': {
+  get: { summary: 'Get all categories', security: [{ bearerAuth: [] }], responses: { 200: { description: 'List of categories' } } },
+  post: { summary: 'Create category', security: [{ bearerAuth: [] }], requestBody: { content: { 'application/json': { schema: { $ref: '#/components/schemas/Category' } } } }, responses: { 201: { description: 'Category created' } } }
+},
+'/api/v1/categories/{id}': {
+  get: { summary: 'Get category by ID', security: [{ bearerAuth: [] }], parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }], responses: { 200: { description: 'Category data' } } },
+  put: { summary: 'Update category', security: [{ bearerAuth: [] }], parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }], requestBody: { content: { 'application/json': { schema: { $ref: '#/components/schemas/Category' } } } }, responses: { 200: { description: 'Category updated' } } },
+  delete: { summary: 'Delete category', security: [{ bearerAuth: [] }], parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }], responses: { 200: { description: 'Category deleted' } } }
+},
+// Budgets (similar structure)
+'/api/v1/budgets': {
+  get: { summary: 'Get all budgets', security: [{ bearerAuth: [] }], responses: { 200: { description: 'List of budgets' } } },
+  post: { summary: 'Create budget', security: [{ bearerAuth: [] }], requestBody: { content: { 'application/json': { schema: { $ref: '#/components/schemas/Budget' } } } }, responses: { 201: { description: 'Budget created' } } }
+},
+'/api/v1/budgets/{id}': {
+  get: { summary: 'Get budget by ID', security: [{ bearerAuth: [] }], parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }], responses: { 200: { description: 'Budget data' } } },
+  put: { summary: 'Update budget', security: [{ bearerAuth: [] }], parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }], requestBody: { content: { 'application/json': { schema: { $ref: '#/components/schemas/Budget' } } }, responses: { 200: { description: 'Budget updated' } } },
+  delete: { summary: 'Delete budget', security: [{ bearerAuth: [] }], parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }], responses: { 200: { description: 'Budget deleted' } } }
+  }
   }
 };
 

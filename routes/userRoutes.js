@@ -9,10 +9,10 @@ const {
 const auth = require('../middleware/auth');
 const router = express.Router();
 
-router.get('/', getAllUsers);
-router.get('/:id', getUserById);
-router.post('/', createUser);
-router.put('/:id', updateUser);
-router.delete('/:id', deleteUser);
+router.get('/', auth, getAllUsers);
+router.get('/:id', auth, getUserById);
+router.post('/', auth, createUser);
+router.put('/:id', auth, updateUser);
+router.delete('/:id', auth, deleteUser);
 
 module.exports = router;
