@@ -8,6 +8,12 @@ const budgetSchema = Joi.object({
   month: Joi.number().min(1).max(12).required(),
   year: Joi.number().min(2020).required()
 });
+const budgetUpdateSchema = Joi.object({
+  categoryId: Joi.string().optional(),
+  amount: Joi.number().positive().optional(),
+  month: Joi.number().min(1).max(12).optional(),
+  year: Joi.number().min(2020).optional()
+}).min(1);
 
 exports.getAllBudgets = async (req, res) => {
   try {
@@ -50,7 +56,7 @@ exports.createBudget = async (req, res) => {
 };
 
 exports.updateBudget = async (req, res) => {
-  const { error } = budgetSchema.validate(req.body);
+  const { error } = budgetUpdateSchema.validate(req.body);
   if (error) return res.status(400).json({ error: error.details[0].message });
 
   try {

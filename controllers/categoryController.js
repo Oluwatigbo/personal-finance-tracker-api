@@ -8,6 +8,12 @@ const categorySchema = Joi.object({
   color: Joi.string().optional()
 });
 
+const categoryUpdateSchema = Joi.object({
+  name: Joi.string().optional(),
+  description: Joi.string().optional(),
+  color: Joi.string().optional()
+}).min(1);
+
 exports.getAllCategories = async (req, res) => {
   try {
     const categories = await req.db.collection(CATEGORY_COLLECTION).find({ userId: new ObjectId(req.user.id) }).toArray();
@@ -44,7 +50,7 @@ exports.createCategory = async (req, res) => {
 };
 
 exports.updateCategory = async (req, res) => {
-  const { error } = categorySchema.validate(req.body);
+  const { error } = categoryUpdateSchema.validate(req.body);
   if (error) return res.status(400).json({ error: error.details[0].message });
 
   try {
