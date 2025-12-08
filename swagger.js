@@ -233,6 +233,7 @@ specs.paths = {
       responses: {
         200: { description: 'User deleted' },
         404: { description: 'User not found', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } },
+        401: { description: 'Unauthorized', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } },
         500: { description: 'Server error', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } }
       }
     }
@@ -355,25 +356,95 @@ specs.paths = {
     }
   },
 '/api/v1/categories': {
-  get: { summary: 'Get all categories', security: [{ bearerAuth: [] }], responses: { 200: { description: 'List of categories' } } },
-  post: { summary: 'Create category', security: [{ bearerAuth: [] }], requestBody: { content: { 'application/json': { schema: { $ref: '#/components/schemas/Category' } } } }, responses: { 201: { description: 'Category created' } } }
+  get: { summary: 'Get all categories', security: [{ bearerAuth: [] }],responses: {
+        200: {
+          description: 'List of categories',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'array',
+                items: { $ref: '#/components/schemas/Category' }
+              }
+            }
+          }
+        },
+        401: { description: 'Unauthorized', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } },
+        500: { description: 'Server error', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } }
+      } },
+  post: { summary: 'Create category', security: [{ bearerAuth: [] }], requestBody: { content: { 'application/json': { schema: { $ref: '#/components/schemas/Category' } } } }, responses: {
+        201: { description: 'Category created' },
+        401: { description: 'Unauthorized', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } },
+        500: { description: 'Server error', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } }
+      } }
 },
 '/api/v1/categories/{id}': {
-  get: { summary: 'Get category by ID', security: [{ bearerAuth: [] }], parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }], responses: { 200: { description: 'Category data' } } },
-  put: { summary: 'Update category', security: [{ bearerAuth: [] }], parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }], requestBody: { content: { 'application/json': { schema: { $ref: '#/components/schemas/Category' } } } }, responses: { 200: { description: 'Category updated' } } },
-  delete: { summary: 'Delete category', security: [{ bearerAuth: [] }], parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }], responses: { 200: { description: 'Category deleted' } } }
+  get: { summary: 'Get category by ID', security: [{ bearerAuth: [] }], parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }], responses: { 200: { description: 'Category data' }, 401: { description: 'Unauthorized', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } } } },
+  put: { summary: 'Update category', security: [{ bearerAuth: [] }], parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }], requestBody: { content: { 'application/json': { schema: { $ref: '#/components/schemas/Category' } } } }, responses: { 200: { description: 'Category updated' }, 400: { description: 'Validation error', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } },
+        401: { description: 'Unauthorized', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } },
+        404: { description: 'Category not found', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } },
+        500: { description: 'Server error', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } } } },
+  delete: { summary: 'Delete category', security: [{ bearerAuth: [] }], parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }], responses: {
+        204: { description: 'Category deleted' },
+        400: { description: 'Validation error', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } },
+        401: { description: 'Unauthorized', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } },
+        404: { description: 'Category not found', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } },
+        500: { description: 'Server error', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } }
+      } }
 },
 // Budgets (similar structure)
 '/api/v1/budgets': {
-  get: { summary: 'Get all budgets', security: [{ bearerAuth: [] }], responses: { 200: { description: 'List of budgets' } } },
-  post: { summary: 'Create budget', security: [{ bearerAuth: [] }], requestBody: { content: { 'application/json': { schema: { $ref: '#/components/schemas/Budget' } } } }, responses: { 201: { description: 'Budget created' } } }
+  get: { summary: 'Get all budgets', security: [{ bearerAuth: [] }], responses: {
+        200: {
+          description: 'List of users',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'array',
+                items: { $ref: '#/components/schemas/User' }
+              }
+            }
+          }
+        },
+        401: { description: 'Unauthorized', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } },
+        500: { description: 'Server error', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } }
+      } },
+  post: { summary: 'Create budget', security: [{ bearerAuth: [] }], requestBody: { content: { 'application/json': { schema: { $ref: '#/components/schemas/Budget' } } } }, responses: { 201: { description: 'Budget created' }, 401: { description: 'Unauthorized', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } }, 500: { description: 'Server error', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } } } }
 },
 '/api/v1/budgets/{id}': {
-  get: { summary: 'Get budget by ID', security: [{ bearerAuth: [] }], parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }], responses: { 200: { description: 'Budget data' } } },
-  put: { summary: 'Update budget', security: [{ bearerAuth: [] }], parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }], requestBody: { content: { 'application/json': { schema: { $ref: '#/components/schemas/Budget' } } }, responses: { 200: { description: 'Budget updated' } } },
-  delete: { summary: 'Delete budget', security: [{ bearerAuth: [] }], parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }], responses: { 200: { description: 'Budget deleted' } } }
+  get: { summary: 'Get budget by ID', security: [{ bearerAuth: [] }], parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }], responses: { 200: { description: 'Budget data' }, 401: { description: 'Unauthorized', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } } } },
+  put: { 
+    summary: 'Update budget', 
+    security: [{ bearerAuth: [] }], 
+    parameters: [
+      { 
+        name: 'id', 
+        in: 'path', 
+        required: true, 
+        schema: { 
+          type: 'string' 
+        } 
+      }], 
+    requestBody: { 
+        content: { 
+          'application/json': { schema: { $ref: '#/components/schemas/Budget' } } 
+        } 
+    }, 
+    responses: {
+        200: { description: 'Budget updated' },
+        400: { description: 'Validation error', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } },
+        404: { description: 'Budget not found', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } },
+        500: { description: 'Server error', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } }
+      }
+  },
+  delete: { summary: 'Delete budget', security: [{ bearerAuth: [] }], parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }], responses: {
+        204: { description: 'Budget deleted' },
+        400: { description: 'Validation error', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } },
+        401: { description: 'Unauthorized', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } },
+        404: { description: 'Budget not found', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } },
+        500: { description: 'Server error', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } }
+      } }
   }
-  }
+
 };
 
 module.exports = specs;

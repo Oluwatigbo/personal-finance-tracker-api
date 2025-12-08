@@ -1,7 +1,7 @@
 const request = require('supertest');
 const app = require('../server');
 const jwt = require('jsonwebtoken');
-const { MongoClient } = require('mongodb');
+const { ObjectId } = require('mongodb');
 
 let client;
 let db;
@@ -31,6 +31,26 @@ afterAll(async () => {
   await db.collection('users').deleteMany();
   await db.collection('transactions').deleteMany();
   await client.close();
+});
+
+describe('GET /api/v1/users', () => {
+  it('should return authenticated user details', async () => {
+    const res = await request(app)  
+      .get('/api/v1/users')
+      .set('Authorization', `Bearer ${token}`);
+    expect(res.status).toBe(200);
+    expect(Array.isArray(res.body)).toBe(true);
+  });
+});
+
+describe('GET /api/v1/users/:id', () => {
+  it('should return a single user by ID', async () => {
+    const res = await request(app)
+      .get(`/api/v1/users/${userId}`)
+      .set('Authorization', `Bearer ${token}`);
+    expect(res.status).toBe(200);
+    expect(res.body.name).toBe('Test User');
+  });
 });
 
 describe('GET /api/v1/transactions', () => {

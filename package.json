@@ -7,12 +7,12 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node server.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Oluwatigbo/personal-finance-tracker-api.git"
+    "url": "https://github.com/Oluwatigbo/personal-finance-tracker-api.git"
   },
   "keywords": [],
   "author": "",
