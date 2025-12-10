@@ -1,4 +1,6 @@
 const swaggerJSDoc = require('swagger-jsdoc');
+const fs = require('fs');
+const path = require('path');
 
 const options = {
   definition: {
@@ -444,7 +446,10 @@ specs.paths = {
         500: { description: 'Server error', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } }
       } }
   }
-
 };
+
+const outputPath = path.join(__dirname, 'swagger.json');
+fs.writeFileSync(outputPath, JSON.stringify(specs, null, 2));
+console.log('swagger.json generated at:', outputPath);
 
 module.exports = specs;
